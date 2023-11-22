@@ -594,7 +594,7 @@ class Checkers:
             y = self.height - self.square_size//4
 
         if abs(self.cpu_eval) > 100:
-            text = f'M{int(1000 - abs(self.cpu_eval/20)) + 1}'
+            text = f'M{int(1000 - abs(self.cpu_eval/self.cpu1.multiplier)) + 1}'
         else:
             text = f'{abs(self.cpu_eval)}'
 

@@ -33,6 +33,8 @@ class CPU:
         self.pos_variation = .3 #.2
         self.range_variation = .1 #.1
 
+        self.multiplier = 1 / ((1/12) * (self.piece_weight + self.piece_variation*.5))
+
     def set_color(self, color: str):
         self.color_str = color
         if color == 'red':
@@ -146,14 +148,14 @@ class CPU:
                 inserted = False
                 for i in range(len(ordered_moves)):
                     m, v = ordered_moves[i]
-                    if (moveVal*20) > v:
-                        ordered_moves.insert(i, (move, moveVal*20))
+                    if (moveVal*self.multiplier) > v:
+                        ordered_moves.insert(i, (move, moveVal*self.multiplier))
                         inserted = True
                         break
                 if not inserted:
-                    ordered_moves.append((move, moveVal*20))
+                    ordered_moves.append((move, moveVal*self.multiplier))
             else:
-                ordered_moves.append((move, moveVal*20))
+                ordered_moves.append((move, moveVal*self.multiplier))
 
             alpha = max(alpha, bestVal)
 
@@ -162,11 +164,11 @@ class CPU:
         end = time.time()
         elapsed = end - start
         if feedback:
-            print(f'best move for {self.color_str} is {bestMove}, with a value of {round(bestVal*20, 1)}')
+            print(f'best move for {self.color_str} is {bestMove}, with a value of {round(bestVal*self.multiplier, 1)}')
             print(f'time elapsed:', numpy.round(elapsed, 1), 'seconds')
 
         if (elapsed < 1) and wait:
             time.sleep(1)
         if return_all:
             return ordered_moves
-        return bestMove, round(bestVal*20, 1)
+        return bestMove, round(bestVal*self.multiplier, 1)
