@@ -480,13 +480,11 @@ class Checkers:
         if index < len(self.parser.analysis.analysis):
             self.cpu_eval = round(self.parser.analysis.analysis[index][2], 1)
             self.best_move = self.parser.analysis.analysis[index][1]
-
-        if index > 0:
-            self.cpu_eval = round(self.parser.analysis.analysis[index - 1][2], 1)
             s = ''
-            for label in self.parser.analysis.analysis[index - 1][-1]:
-                s += f'{label.replace("_", " ")}, '
-            s = s.removesuffix(', ')
+            if index > 0:
+                for label in self.parser.analysis.analysis[index - 1][-1]:
+                    s += f'{label.replace("_", " ")}, '
+                s = s.removesuffix(', ')
 
             self.label_text.set_text(s)
 

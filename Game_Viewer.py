@@ -129,8 +129,8 @@ class Analysis:
                     self.red_mistakes += 1
 
         if self.cpu.color:
-            moveVal *= -1
-        return (move, bestMove, moveVal, labels)
+            bestVal *= -1
+        return (move, bestMove, bestVal, labels)
 
     def analyze_game(self):
         self.board = self.b(self)
