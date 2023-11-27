@@ -114,14 +114,14 @@ class Analysis:
                     self.black_missed_wins += 1
                 else:
                     self.red_missed_wins += 1
-            if (bestVal - moveVal >= 1):
+            elif (bestVal - moveVal >= 1):
                 labels.append('blunder')
                 if turn:
                     self.black_blunders += 1
                 else:
                     self.red_blunders += 1
 
-            if (bestVal - moveVal >= .5):
+            elif (bestVal - moveVal >= .5):
                 labels.append('mistake')
                 if turn:
                     self.black_mistakes += 1
