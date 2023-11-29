@@ -600,12 +600,30 @@ class Checkers:
         self.eval_text.set_center((self.square_size*8 + self.square_size//4, y))
         self.eval_text.draw(self.screen)
 
+    def show_material(self):
+        x = self.square_size * 8 + self.square_size * .75
+        top = self.square_size//4
+        bot = self.height - top
+        
+        size = self.piece_radius / 3
+
+        red_taken = 12 - len(self.board.black_pieces)
+        black_taken = 12 - len(self.board.red_pieces)
+
+        for y in range(red_taken):
+            pos = x, bot - y * size * 2.1
+            pygame.draw.circle(self.screen, black, pos, size)
+        for y in range(black_taken):
+            pos = x, top + y * size * 2.1
+            pygame.draw.circle(self.screen, dark_red, pos, size)
+
     def update_display(self):
         self.screen.blit(self.background, (0, 0))
         self.draw_board()
         self.draw_eval_bar()
         self.show_last_move()
         self.show_best_move()
+        self.show_material()
         if self.selected:
             self.draw_valid_moves(self.selected)
         self.draw_pieces()
