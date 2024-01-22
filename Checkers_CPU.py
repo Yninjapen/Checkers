@@ -47,15 +47,6 @@ class CPU:
             self.opp_color_str = 'red'
 
     def evaluate(self, board):
-        result = board.game_over
-        if result:
-            if result == self.color_str:
-                return 1000
-            if result == self.opp_color_str:
-                return -1000
-            else:
-                return 0
-
         pieces = board.get_piece_group(self.color)
         opp_pieces = board.get_piece_group(self.opponent)
         piece_count = (len(pieces) + len(opp_pieces))
@@ -87,17 +78,16 @@ class CPU:
         return ((piece_val - opp_piece_val)/12)*(self.piece_weight + self.piece_variation*((24 - piece_count)/24)) + ((move_val - opp_move_val)/10)*(self.move_weight - self.move_variation*abs(game_development)) + ((pos_val/piece_val) - (opp_pos_val/opp_piece_val)) * self.pos_weight + ((len(p_diff) - len(opp_diff))/3) * (self.range_weight - self.range_variation*max(game_development, 0))
     
     def minimax(self, board, depth: int, alpha, beta):
-        score = self.evaluate(board)
+        if (board.game_over):
 
-        if score == 1000:
-            return score - (self.depth - depth)
-        if score == -1000:
-            return score + (self.depth - depth)
-        if board.game_over:
+            if board.game_over == self.color_str:
+                return 1000 - (self.depth - depth)
+            if board.game_over == self.opp_color_str:
+                return -1000 + (self.depth - depth)
             return 0
         
         if depth == 0:
-            return score
+            return self.evaluate(board)
 
         if (board.turn%2) == self.color:
             bestVal = -10000
